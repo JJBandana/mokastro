@@ -11,8 +11,8 @@
 let regex = /[!.,]/g
 let regex1 = /[.,]/
 
-const formatTime = (number: Number) => {
-  let ms : Number = number * 700
+const formatTime = (number) => {
+  let ms = number * 700
   // Calcular horas, minutos, segundos y milisegundos
   const hours = String(Math.floor(ms / 3600000)).padStart(2, '0');
   const minutes = String(Math.floor((ms % 3600000) / 60000)).padStart(2, '0');
