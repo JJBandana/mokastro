@@ -1,4 +1,7 @@
 ---
+import ViewTransitions from "astro/components/ViewTransitions.astro";
+import Countdown from "../components/Countdown.astro";
+import ScriptMaker from "../components/ScriptMaker.astro";
 
 ---
 
@@ -6,11 +9,14 @@
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="../src/styles/reset.css">
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
+    <ViewTransitions />
 		<title>Astro</title>
 	</head>
 	<body>
-		<h1>Astro</h1>
+		<Countdown />
+    <ScriptMaker />
 	</body>
 </html>
