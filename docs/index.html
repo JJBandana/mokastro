@@ -1,5 +1,5 @@
 <!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="viewport" content="width=device-width"><meta name="generator" content="Astro v4.16.7"><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><title>Astro</title><style>.astro-route-announcer{position:absolute;left:0;top:0;clip:rect(0 0 0 0);clip-path:inset(50%);overflow:hidden;white-space:nowrap;width:1px;height:1px}.container[data-astro-cid-pvc3zpmd]{max-width:400px;margin:10rem auto;width:100%;text-align:center;padding:20px;border-radius:8px;background-color:#fff;box-shadow:0 2px 10px #0000001a}input[data-astro-cid-pvc3zpmd],button[data-astro-cid-pvc3zpmd]{width:100%;padding:10px;margin:5px 0;font-size:16px;border:1px solid #ddd;border-radius:4px}button[data-astro-cid-pvc3zpmd]{background-color:#007bff;color:#fff;border:none;cursor:pointer}button[data-astro-cid-pvc3zpmd]:hover{background-color:#0056b3}.output[data-astro-cid-pvc3zpmd]{margin-top:20px;padding:10px;border:1px solid #ddd;background-color:#f9f9f9;white-space:pre-wrap;text-align:left;max-height:200px;overflow-y:auto;border-radius:4px}*,*:before,*:after{box-sizing:border-box}body,h1,h2,h3,h4,h5,p,figure,picture{margin:0;font-family:Verdana,Geneva,Tahoma,sans-serif}p,h1,h2,h3,h4,h5,h6{overflow-wrap:break-word}body{line-height:1.5;min-height:100vh;-webkit-font-smoothing:antialiased}img,picture,video,canvas,svg{display:block;max-width:100%}input,button,textarea,select{font:inherit}@media (prefers-reduced-motion: reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
-</style><script type="module" src="/astro/hoisted.XvEZ7fPW.js"></script></head> <body> <div class="countdown"> <h1 id="demo">60d 20h 15m 12s</h1> <script>
+</style><script type="module" src="/astro/hoisted.2daoxv0f.js"></script></head> <body> <div class="countdown"> <h1 id="demo">60d 20h 15m 12s</h1> <script>
   // Set the date we're counting down to
   let countDownDate = new Date("Dec 24, 2024 00:00:00").getTime();
   
@@ -57,4 +57,69 @@
     }
 
   }
-</style> <div class="container" data-astro-cid-pvc3zpmd> <h2 data-astro-cid-pvc3zpmd>💳 お金持ちメーカー 💵</h2> <input type="text" id="inputText" placeholder="Paste your text here" data-astro-cid-pvc3zpmd> <button onclick="separarTexto()" data-astro-cid-pvc3zpmd>Apply Format</button> <div class="output" id="output" data-astro-cid-pvc3zpmd></div> <button id="descargarBtn" style="display:none;" data-astro-cid-pvc3zpmd>Download SRT ⬇️</button> </div>   </body></html>
+</style> <div class="container" data-astro-cid-pvc3zpmd> <h2 data-astro-cid-pvc3zpmd>💳 お金持ちメーカー 💵</h2> <input type="text" id="inputText" placeholder="Paste your text here" data-astro-cid-pvc3zpmd> <button onclick="separarTexto()" data-astro-cid-pvc3zpmd>Apply Format</button> <div class="output" id="output" data-astro-cid-pvc3zpmd></div> <button id="descargarBtn" style="display:none;" data-astro-cid-pvc3zpmd>Download SRT ⬇️</button> </div> <script>
+  // @ts-nocheck
+let regex = /[!.,]/g
+let regex1 = /[.,]/
+
+const formatTime = (number) => {
+  let ms = number * 700
+  // Calcular horas, minutos, segundos y milisegundos
+  const hours = String(Math.floor(ms / 3600000)).padStart(2, '0');
+  const minutes = String(Math.floor((ms % 3600000) / 60000)).padStart(2, '0');
+  const seconds = String(Math.floor((ms % 60000) / 1000)).padStart(2, '0');
+  const milliseconds = String(ms % 1000).padStart(3, '0');
+
+  return `\n${number}\n00:${minutes}:${seconds}.${milliseconds}\n`;
+}
+
+let textoSeparado = ''
+  const separarTexto = () => {
+      const input = document.getElementById('inputText').value;
+      const output = document.getElementById('output');
+
+      let palabras = input.split('').join('').split(/\s+/);
+      let resultado = '';
+      let linea = '';
+      let num = 1
+
+      palabras.forEach(palabra => {
+        
+        if (regex.test(palabra)){
+          resultado += formatTime(num)
+          resultado += linea + palabra.replace(regex1, '') + '\n';
+          linea = '';
+          num++
+          return
+        } else if (linea.length + palabra.length + 1 > 13) {
+          resultado += formatTime(num)
+          resultado += linea.trim() + '\n';
+          linea = '';
+          num++
+        }
+        linea += palabra + ' ';
+      });
+
+      if (linea) {
+          resultado += linea.trim();
+      }
+
+      output.textContent = resultado;
+      textoSeparado = resultado;
+  }
+
+   // Mostrar botón de descarga
+   const descargarBtn = document.getElementById("descargarBtn");
+  descargarBtn.style.display = "block";
+
+  // Asignar el evento de descarga al botón
+  descargarBtn.onclick = function() {
+      const blob = new Blob([textoSeparado], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "script.srt"; // Nombre del archivo a descargar
+      a.click();
+      URL.revokeObjectURL(url); // Liberar memoria
+  }
+</script>  </body></html>
