@@ -5,5 +5,5 @@ import { defineConfig } from 'astro/config';
 export default defineConfig({
   output: "static",
   outDir: "./docs",
-	site: 'https://jjbandana.github.io/mokastro',
+	site: 'https://jjbandana.github.io',
 });
